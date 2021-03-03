@@ -12,14 +12,17 @@ fish_fun <- function(species, common, rare, total, hist = FALSE){
   common = which.max(summary(species))
   rare = which.min(summary(species))
   total = sum(summary(species))
-  list_output <- list(common = common, rare = rare, total = total)
-  return(list_output)
-  if(hist == TRUE) 
-    return(ggplot(data.frame(species), 
+if(hist == TRUE){
+  histogram <- ggplot(data.frame(species), 
                       aes(x = species, fill = species)) + 
     geom_histogram(stat = "count") + 
     theme_minimal() +
     labs(title = sprintf("We mostly caught %s \n max catch(%d)", 
                          names(which.max(summary(species))), 
-                         sum(summary(species)))))
+                         sum(summary(species))))
+  return(list(common = common, rare = rare, total = total, histogram))
+  }
+else{
+  return(list(common = common, rare = rare, total = total))
+  }
 }
